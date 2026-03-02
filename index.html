@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Розовый чизкейк</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #e6e6e6;
+    color: #222;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* HEADER */
+
+header {
+    padding: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+}
+
+nav {
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #000;
+    margin: 0 15px;
+}
+
+.socials span {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #ff4b6e;
+    border-radius: 6px;
+    margin-left: 10px;
+}
+
+/* HERO */
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.hero-text h1 {
+    font-size: 32px;
+    color: #ff4b6e;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-text h2 {
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.hero img {
+    width: 600px;
+}
+
+.btn {
+    background: #ff4b6e;
+    color: white;
+    padding: 12px 35px;
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* ABOUT */
+
+.about {
+    margin: 60px 0;
+    width: 650px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* SPECIAL */
+
+.special {
+    margin-top: 80px;
+}
+
+.special h3 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.special-grid {
+    display: flex;
+    gap: 30px;
+}
+
+.card {
+    background: #ff4b6e;
+    color: white;
+    padding: 40px;
+    width: 33%;
+    min-height: 180px;
+    font-size: 13px;
+}
+
+/* FEATURES */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 60px 0;
+}
+
+.feature-box {
+    border: 2px solid #ff4b6e;
+    padding: 20px;
+    font-size: 13px;
+}
+
+/* PRODUCTS */
+
+.products {
+    margin: 80px 0;
+}
+
+.products h3 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.product-grid {
+    display: flex;
+    gap: 30px;
+}
+
+.product {
+    width: 33%;
+}
+
+.product img {
+    width: 100%;
+    display: block;
+}
+
+.product h4 {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.product p {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* FORM */
+
+.form-section {
+    background: #a9c7e5;
+    padding: 60px;
+    margin-bottom: 60px;
+}
+
+.form-section h3 {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+form input {
+    width: 400px;
+    display: block;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 10px;
+    background: transparent;
+}
+
+.submit-btn {
+    background: #ff4b6e;
+    color: white;
+    padding: 12px 35px;
+    border: none;
+    cursor: pointer;
+}
+
+/* FOOTER */
+
+footer {
+    background: #e4b9c1;
+    padding: 80px 0;
+}
+
+.footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-left {
+    width: 40%;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer-left h4 {
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.footer-left p {
+    margin-bottom: 10px;
+}
+
+.mt {
+    margin-top: 40px;
+}
+
+.mt-small {
+    margin-top: 20px;
+}
+
+.footer-map {
+    width: 550px;
+    height: 320px;
+}
+
+/* ========================= */
+/* 📱 АДАПТИВ ДЛЯ ТЕЛЕФОНА */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero img {
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .about {
+        width: 100%;
+    }
+
+    .special-grid {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .product-grid {
+        flex-direction: column;
+    }
+
+    .product {
+        width: 100%;
+    }
+
+    .form-section {
+        padding: 40px 20px;
+    }
+
+    form input {
+        width: 100%;
+    }
+
+    /* FOOTER MOBILE */
+
+    .footer-wrapper {
+        flex-direction: column;
+    }
+
+    .footer-left {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .footer-map {
+        width: 100%;
+        height: 250px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <img src="images/лого.png" class="logo">
+    <nav>
+        <a href="#">КОНТАКТЫ</a>
+        <a href="#">СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</a>
+        <a href="#">СДЕЛАТЬ ЗАКАЗ</a>
+    </nav>
+    <div class="social">
+        <a href="#"><img src="images/вк.png" alt="VK"></a>
+        <a href="#"><img src="images/ин.png" alt="Instagram"></a>
+        <a href="#"><img src="images/тг.png" alt="Telegram"></a>
+    </div>
+    
+</header>
+
+<section class="hero">
+    <div class="hero-text">
+        <h1>РОЗОВЫЙ ЧИЗКЕЙК –</h1>
+        <h2>ДОСТАВКА ТОРТОВ</h2>
+        <a href="#" class="btn">Сделать заказ</a>
+    </div>
+    <img src="images/1.jpg" alt="">
+</section>
+
+<section class="about">
+    Я занимаюсь профессиональной выпечкой тортов уже более 15 лет. 
+    На своем опыте знаю, в момент процесса выпечки всегда не вовремя 
+    заканчивается нужный краситель, ломается фигурка, рассыпается смесь.
+    Где кондитеру найти товары поздним вечером, ночью или ранним утром?
+    У нас!
+</section>
+
+<section class="special">
+    <h3>СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</h3>
+    <div class="special-grid">
+        <div class="card">БЕСПЛАТНАЯ ДОСТАВКА 24 ЧАСА ПРИ ЗАКАЗЕ ОТ 5000 РУБ</div>
+        <div class="card">ДОСТАВКА КУРЬЕРСКОЙ СЛУЖБОЙ ПО СПБ И ЛО 24 ЧАСА</div>
+        <div class="card">КРУГЛОСУТОЧНО ПРИНИМАЕМ ЗАКАЗЫ</div>
+    </div>
+</section>
+
+
+<section class="features">
+    <div class="feature-box">Работаем круглосуточно</div>
+    <div class="feature-box">Доставляем на дом</div>
+    <div class="feature-box">Выдаем напрокат</div>
+    <div class="feature-box">Фотопечать</div>
+    <div class="feature-box">Консультируем</div>
+    <div class="feature-box">Обновляем</div>
+</section>
+
+<section class="products">
+    <h3>ПОПУЛЯРНЫЕ ТОВАРЫ</h3>
+    <div class="product-grid">
+        <div class="product">
+            <img src="images/2.jpg">
+            <h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
+            <p>Классический американский чизкейк</p>
+        </div>
+        <div class="product">
+            <img src="images/3.jpg">
+            <h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
+            <p>Классический американский чизкейк</p>
+        </div>
+        <div class="product">
+            <img src="images/4.jpg">
+            <h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
+            <p>Классический американский чизкейк</p>
+        </div>
+    </div>
+</section>
+
+<section class="form-section">
+    <h3>СДЕЛАЙТЕ ЗАКАЗ ИЛИ ЗАДАЙТЕ ВОПРОС</h3>
+    <form>
+        <input type="text" placeholder="Имя">
+        <input type="email" placeholder="E-mail">
+        <input type="text" placeholder="Номер телефона">
+        <input type="text" placeholder="Вопрос">
+        <button class="submit-btn">Отправить форму</button>
+    </form>
+</section>
+
+</div>
+
+<footer>
+    <div class="container footer-wrapper">
+
+        <div class="footer-left">
+            <h4>КОНТАКТЫ</h4>
+            <p>ул. Большая Морская, 18</p>
+            <p>+78121112233</p>
+
+            <h4 class="mt">КАК ПРОЕХАТЬ</h4>
+            <p>
+                Кондитерская находится в здании Avenue<br>
+                с западной стороны. Удобная парковка рядом.<br>
+                Первый час — бесплатно.
+            </p>
+            <p class="mt-small">
+                Ждем вас в гости по будням с 10:00 до 21:00<br>
+                и по выходным с 10:00 до 19:00
+            </p>
+        </div>
+
+        <div class="footer-map">
+            <iframe 
+                src="https://www.google.com/maps?q=Большая+Морская+18+Санкт-Петербург&output=embed"
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+
+    </div>
+</footer>
+
+
+
+</body>
+</html>
