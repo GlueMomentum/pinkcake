@@ -1,0 +1,382 @@
+body{
+font-family:'Source Sans 3', sans-serif;
+margin:0;
+color:#222;
+background:#fff;
+}
+
+.container{
+width:1200px;
+margin:auto;
+}
+
+/* HEADER */
+
+.logo img{
+    width: 46px;
+    height: 45px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 0;
+}
+
+.menu a{
+margin:0 15px;
+text-decoration:none;
+color:#333;
+font-size:14px;
+letter-spacing:1px;
+}
+
+.menu a{
+position:relative;
+}
+
+.menu a::after{
+content:"";
+position:absolute;
+width:0;
+height:2px;
+background:#f3a4a4;
+left:0;
+bottom:-4px;
+transition:0.3s;
+}
+
+.menu a:hover::after{
+width:100%;
+}
+
+.socials{
+display:flex;
+gap:10px;
+}
+
+.social{
+background:#f2a3a3;
+color:#fff;
+width:30px;
+height:30px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:6px;
+font-size:12px;
+}
+
+
+/* HERO */
+
+.hero{
+display:flex;
+align-items:center;
+margin-top:40px;
+}
+
+.hero-left{
+width:40%;
+}
+
+.hero-left h1{
+font-size:42px;
+letter-spacing:2px;
+}
+
+.subtitle{
+font-size:26px;
+color:#666;
+}
+
+.btn{
+margin-top:20px;
+padding:12px 28px;
+border-radius:30px;
+border:1px solid #333;
+background:white;
+cursor:pointer;
+}
+
+.hero-right{
+width:60%;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.img-big{
+width:100%;
+border-radius:16px;
+}
+
+.img-small{
+width:70%;
+border-radius:16px;
+}
+
+
+/* ABOUT */
+
+.about{
+width:1150px;
+margin:60px auto;
+border:2px solid #f3a4a4;
+border-radius:20px;
+padding:25px;
+line-height:1.6;
+}
+
+
+/* OFFERS */
+
+.offers{
+margin-top:80px;
+}
+
+.offers h2{
+text-align:left;
+font-size: 32px;
+}
+
+.offer-cards{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:40px;
+}
+
+.offer{
+background:#f3a4a4;
+width:230px;
+height:200px;
+border-radius:20px;
+color:white;
+padding:25px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.offer img{
+width:100px;
+margin-bottom:15px;
+}
+
+
+/* SERVICES */
+
+.services{
+width:900px;
+margin:80px auto;
+display:grid;
+grid-template-columns:2fr 1fr;
+grid-template-rows:200px 200px 200px;
+gap:25px;
+}
+
+.services .service:last-child{
+grid-column:2;
+grid-row:3;
+}
+
+.service{
+border:2px solid #f3a4a4;
+border-radius:25px;
+padding:30px;
+background:#ffffff;
+}
+
+.big{
+grid-row:1 / span 2;
+}
+
+.middle{
+grid-column:1;
+grid-row:3;
+}
+
+/* PRODUCTS */
+
+.products{
+margin-top:80px;
+}
+
+.products h2{
+margin-bottom:30px;
+font-size: 32px;
+}
+
+.product-list{
+display:flex;
+gap:30px;
+justify-content: center;
+}
+
+.product{
+width:300px;
+}
+
+.product img{
+width:100%;
+border-radius:20px;
+}
+
+.product h4{
+margin:10px 0;
+font-size:16px;
+}
+
+
+/* FORM */
+
+.form{
+width:700px;
+margin:80px auto;
+background:#f7dede;
+padding:40px;
+border-radius:20px;
+}
+
+form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+input{
+border:none;
+border-bottom:1px solid #999;
+background:transparent;
+padding:10px;
+}
+
+.form-btn{
+display:flex;
+justify-content:flex-end;
+}
+
+
+/* FOOTER */
+
+footer{
+background:#ee9c9c;
+padding:60px 0;
+}
+
+.footer-container{
+width:1200px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+}
+
+.footer-left{
+color:white;
+width:400px;
+}
+
+.footer-left h4{
+margin-top:0;
+}
+
+.mt{
+margin-top:30px;
+}
+
+.map{
+width:420px;
+height:220px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+}
+
+
+/* ===== MOBILE ===== */
+
+@media (max-width:768px){
+
+.container{
+width:90%;
+}
+
+/* HEADER */
+
+.header{
+flex-direction:column;
+gap:15px;
+}
+
+/* HERO */
+
+.hero{
+flex-direction:column;
+gap:30px;
+}
+
+.hero-left{
+width:100%;
+text-align:center;
+}
+
+.hero-right{
+width:100%;
+}
+
+/* ABOUT */
+
+.about{
+width:100%;
+}
+
+/* OFFERS */
+
+.offer-cards{
+flex-direction:column;
+align-items:center;
+}
+
+/* SERVICES */
+
+.services{
+width:100%;
+grid-template-columns:1fr;
+}
+
+.big{
+grid-row:auto;
+}
+
+/* PRODUCTS */
+
+.product-list{
+flex-direction:column;
+align-items:center;
+}
+
+.product{
+width:100%;
+}
+
+/* FORM */
+
+.form{
+width:100%;
+}
+
+/* FOOTER */
+
+.footer-container{
+flex-direction:column;
+gap:40px;
+}
+
+.map{
+width:100%;
+height:250px;
+}
+
+}
