@@ -11,10 +11,133 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 
 <body>
+<script>
+  
+  const { createClient } = supabase;
+  
+  //данные из Supabase
+  const SUPABASE_URL = 'https://wmvxdawneugbyuiijyzi.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_Emi68RQNkGtKnzYrkdFJYg_ivqNS2r6';
+  
+  
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Функция загрузки товаров
+  async function loadProducts() {
+      const container = document.getElementById('products-container');
+      
+      try {
+          
+          const { data: products, error } = await supabaseClient
+              .from('products')
+              .select('*')
+              .order('category'); 
+
+          if (error) throw error;
+
+          container.innerHTML = '';
+
+          
+          if (products && products.length > 0) {
+              renderProducts(products, container);
+          } else {
+              container.innerHTML = '<div class="loading">Товары временно отсутствуют</div>';
+          }
+      } catch (error) {
+          console.error('Ошибка:', error);
+          container.innerHTML = '<div class="loading">Ошибка загрузки товаров</div>';
+      }
+  }
+
+  // Функция отображения товаров
+  function renderProducts(products, container) {
+      container.innerHTML = '';
+
+      products.forEach(product => {
+          const productCard = document.createElement('div');
+          productCard.className = 'product';
+          
+         
+          const price = product.price.toFixed(2).replace('.', ',');
+          
+          productCard.innerHTML = `
+              <img src="${product.image_url}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+              <div class="category-badge">${product.category || 'Товар'}</div>
+              <h4>${product.name}</h4>
+              <p class="price">${price} ₽</p>
+              <p>${product.description || ''}</p>
+          `;
+          
+          container.appendChild(productCard);
+      });
+  }
+
+  // Функция отправки формы
+  async function handleFormSubmit(event) {
+      event.preventDefault();
+
+      
+      const formData = {
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          message: document.getElementById('message').value.trim()
+      };
+
+      
+      if (!formData.name || !formData.email) {
+          alert('Пожалуйста, заполните имя и email');
+          return;
+      }
+
+      // Показываем сообщение об отправке
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Отправка...';
+      submitBtn.disabled = true;
+
+      try {
+          
+          const { error } = await supabaseClient
+              .from('contact_requests')
+              .insert([formData]);
+
+          if (error) throw error;
+
+         
+          alert('Спасибо! Ваша заявка отправлена.');
+          event.target.reset(); 
+
+      } catch (error) {
+          console.error('Ошибка:', error);
+          alert('Произошла ошибка. Попробуйте позже или напишите нам в Telegram.');
+      } finally {
+          
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+      }
+  }
+
+  // Загружаем все при загрузке страницы
+  document.addEventListener('DOMContentLoaded', function() {
+      // Загружаем товары
+      loadProducts();
+
+      
+      const form = document.getElementById('contact-form');
+      if (form) {
+          form.addEventListener('submit', handleFormSubmit);
+      } else {
+          console.warn('Форма не найдена! Проверьте ID формы.');
+      }
+  });
+</script>
+
 
 <div class="container">
 
@@ -133,31 +256,12 @@
 
 
 <section class="products" id="products">
-
-<h2>ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
-
-<div class="product-list">
-
-<div class="product">
-<img src="images/2.jpg">
-<h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
-<p>Классический американский чизкейк на основе сливочного сыра</p>
-</div>
-
-<div class="product">
-<img src="images/3.jpg">
-<h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
-<p>Классический американский чизкейк на основе сливочного сыра</p>
-</div>
-
-<div class="product">
-<img src="images/4.jpg">
-<h4>ЧИЗКЕЙК НЬЮ-ЙОРК</h4>
-<p>Классический американский чизкейк на основе сливочного сыра</p>
-</div>
-
-</div>
-
+    <h2>ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
+    
+    <div class="product-list" id="products-container">
+        
+        <div class="loading">Загрузка товаров...</div>
+    </div>
 </section>
 
 
@@ -166,18 +270,16 @@
 
 <h3>СДЕЛАЙТЕ ЗАКАЗ ИЛИ ЗАДАЙТЕ ВОПРОС</h3>
 
-<form>
-
-<input type="text" placeholder="Имя">
-<input type="email" placeholder="E-mail">
-<input type="text" placeholder="Номер телефона">
-
-<div class="form-btn">
-<button class="btn">Отправить форму</button>
-</div>
-
+<form id="contact-form">  
+    <input type="text" id="name" placeholder="Имя" required>
+    <input type="email" id="email" placeholder="E-mail" required>
+    <input type="text" id="phone" placeholder="Номер телефона">
+    <input type="text" id="message" placeholder="Комментарий" rows="3" required>
+    
+    <div class="form-btn">
+        <button type="submit" class="btn">Отправить форму</button>
+    </div>
 </form>
-
 </section>
 
 </div>
@@ -228,5 +330,7 @@ loading="lazy">
 </footer>
 
 
+
+  
 </body>
 </html>
