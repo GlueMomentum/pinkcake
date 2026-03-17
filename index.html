@@ -188,7 +188,7 @@
 
 
 
-<section class="about">
+<section class="about animate">
 
 <p>
 Я занимаюсь профессиональной выпечкой тортов уже более 15 лет.
@@ -202,7 +202,7 @@
 
 
 
-<section class="offers" id="offers">
+<section class="offers animate" id="offers">
 
 <h2>СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</h2>
 
@@ -229,7 +229,7 @@
 
 
 
-<section class="services">
+<section class="services animate">
 
 <div class="service big">
 <h3>КОНСУЛЬТИРУЕМ ПО АССОРТИМЕНТУ</h3>
@@ -255,7 +255,7 @@
 
 
 
-<section class="products" id="products">
+<section class="products animate" id="products">
     <h2>ПОПУЛЯРНЫЕ ТОВАРЫ</h2>
     
     <div class="product-list" id="products-container">
@@ -266,7 +266,7 @@
 
 
 
-<section class="form" id="form">
+<section class="form animate" id="form">
 
 <h3>СДЕЛАЙТЕ ЗАКАЗ ИЛИ ЗАДАЙТЕ ВОПРОС</h3>
 
@@ -329,7 +329,19 @@ loading="lazy">
 
 </footer>
 
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+});
 
+document.querySelectorAll('.animate').forEach(el => {
+  observer.observe(el);
+});
+</script>
 
   
 </body>
