@@ -11,6 +11,17 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;600;700&display=swap" rel="stylesheet">
 
+
+<link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+<link rel="shortcut icon" href="images/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Pinkcake" />
+<link rel="manifest" href="images/site.webmanifest" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -147,16 +158,28 @@
 <img src="images/logo.svg">
 </div>
 
-<nav class="menu">
+<nav class="menu" id="menu">
 <a href="#contacts">КОНТАКТЫ</a>
 <a href="#offers">СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ</a>
 <a href="#form">СДЕЛАТЬ ЗАКАЗ</a>
 </nav>
 
+<div class="burger" id="burger">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
 <div class="socials">
-<div class="social">vk</div>
-<div class="social">ig</div>
-<div class="social">tg</div>
+<div class="social">
+    <img src="images/vk.svg" alt="vk">
+</div>
+<div class="social">
+    <img src="images/tg.svg" alt="tg">
+</div>
+<div class="social">
+    <img src="images/inst.svg" alt="inst">
+</div>
 </div>
 
 </header>
@@ -242,7 +265,7 @@
 <p>Самовывоз 24 часа</p>
 </div>
 
-<div class="service middle">
+<div class="service">
 <h3>ВЫДАЕМ НАПРОКАТ</h3>
 <p>Кондитерские формы и приспособления</p>
 </div>
@@ -344,6 +367,14 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.animate').forEach(el => {
   observer.observe(el);
+});
+
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active'); // анимация
+    menu.classList.toggle('active');   // меню
 });
 </script>
 
