@@ -88,51 +88,176 @@
       });
   }
 
-  // Функция отправки формы
-  async function handleFormSubmit(event) {
-      event.preventDefault();
+  // Функция валидации полей
+function validateForm(name, email, phone, message) {
+    let isValid = true;
+    
+    // Очищаем предыдущие ошибки
+    clearErrors();
+    
+    // Валидация имени (только буквы, минимум 2 символа)
+    const nameRegex = /^[A-Za-zА-Яа-яЁё\s]{2,}$/;
+    if (!name || !nameRegex.test(name)) {
+        showError('name', 'Введите корректное имя (минимум 2 буквы)');
+        isValid = false;
+    }
+    
+    // Валидация email
+    const emailRegex = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        showError('email', 'Введите корректный email (например: name@domain.com)');
+        isValid = false;
+    }
+    
+    // Валидация телефона (опционально, если заполнен)
+    if (phone) {
+        const phoneRegex = /^[\d\s\-+()]{10,}$/;
+        if (!phoneRegex.test(phone)) {
+            showError('phone', 'Введите корректный номер телефона (минимум 10 цифр)');
+            isValid = false;
+        }
+    }
+    
+    // Валидация комментария (минимум 3 символа)
+    if (!message || message.trim().length < 3) {
+        showError('message', 'Введите комментарий (минимум 3 символа)');
+        isValid = false;
+    }
+    
+    return isValid;
+}
 
-      
-      const formData = {
-          name: document.getElementById('name').value.trim(),
-          email: document.getElementById('email').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          message: document.getElementById('message').value.trim()
-      };
+// Функция показа ошибки
+function showError(fieldId, message) {
+    const input = document.getElementById(fieldId);
+    const errorSpan = document.getElementById(`${fieldId}-error`);
+    
+    if (input) {
+        input.classList.add('input-error');
+    }
+    if (errorSpan) {
+        errorSpan.textContent = message;
+    }
+}
 
-      
-      if (!formData.name || !formData.email) {
-          alert('Пожалуйста, заполните имя и email');
-          return;
-      }
+// Функция очистки ошибок
+function clearErrors() {
+    const fields = ['name', 'email', 'phone', 'message'];
+    fields.forEach(field => {
+        const input = document.getElementById(field);
+        const errorSpan = document.getElementById(`${field}-error`);
+        
+        if (input) {
+            input.classList.remove('input-error');
+        }
+        if (errorSpan) {
+            errorSpan.textContent = '';
+        }
+    });
+}
 
-      // Показываем сообщение об отправке
-      const submitBtn = event.target.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Отправка...';
-      submitBtn.disabled = true;
+// Функция отправки формы
+async function handleFormSubmit(event) {
+    event.preventDefault();
 
-      try {
-          
-          const { error } = await supabaseClient
-              .from('contact_requests')
-              .insert([formData]);
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-          if (error) throw error;
+    // Валидация формы
+    if (!validateForm(name, email, phone, message)) {
+        // Прокручиваем к первому полю с ошибкой
+        const firstError = document.querySelector('.input-error');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
 
-         
-          alert('Спасибо! Ваша заявка отправлена.');
-          event.target.reset(); 
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Отправка...';
+    submitBtn.disabled = true;
 
-      } catch (error) {
-          console.error('Ошибка:', error);
-          alert('Произошла ошибка. Попробуйте позже или напишите нам в Telegram.');
-      } finally {
-          
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-      }
-  }
+    try {
+        const formData = { 
+            name, 
+            email, 
+            phone, 
+            message,
+            is_processed: false  // новый столбец
+        };
+        
+        const { error } = await supabaseClient
+            .from('contact_requests')
+            .insert([formData]);
+
+        if (error) throw error;
+
+        showModal();
+        event.target.reset();
+        clearErrors(); // Очищаем ошибки после успешной отправки
+
+    } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка. Попробуйте позже или напишите нам в Telegram.');
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+}
+    // Функция показа модального окна
+    function showModal() {
+        const modal = document.getElementById('successModal');
+        modal.style.display = 'block';
+        
+        // Закрытие по клику на крестик
+        const closeBtn = document.querySelector('.modal-close');
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+        
+        // Закрытие по клику на кнопку
+        const modalBtn = document.getElementById('modalCloseBtn');
+        modalBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+        
+        // Закрытие по клику вне окна
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    }
+    // Реаль-time валидация при вводе
+function setupRealtimeValidation() {
+    const fields = ['name', 'email', 'phone', 'message'];
+    
+    fields.forEach(field => {
+        const input = document.getElementById(field);
+        if (input) {
+            input.addEventListener('input', function() {
+                // Убираем ошибку при начале ввода
+                const errorSpan = document.getElementById(`${field}-error`);
+                if (errorSpan && errorSpan.textContent) {
+                    this.classList.remove('input-error');
+                    errorSpan.textContent = '';
+                }
+            });
+            
+            // Убираем ошибку при фокусе
+            input.addEventListener('focus', function() {
+                this.classList.remove('input-error');
+                const errorSpan = document.getElementById(`${field}-error`);
+                if (errorSpan) {
+                    errorSpan.textContent = '';
+                }
+            });
+        }
+    });
+}
 
   // Загружаем все при загрузке страницы
   document.addEventListener('DOMContentLoaded', function() {
@@ -143,6 +268,7 @@
       const form = document.getElementById('contact-form');
       if (form) {
           form.addEventListener('submit', handleFormSubmit);
+           setupRealtimeValidation();
       } else {
           console.warn('Форма не найдена! Проверьте ID формы.');
       }
@@ -171,15 +297,15 @@
 </div>
 
 <div class="socials">
-<div class="social">
+<a href="https://vk.com" target="_blank" class="social">
     <img src="images/vk.svg" alt="vk">
-</div>
-<div class="social">
+</a>
+<a href="https://t.me" target="_blank" class="social">
     <img src="images/tg.svg" alt="tg">
-</div>
-<div class="social">
+</a>
+<a href="https://instagram.com" target="_blank" class="social">
     <img src="images/inst.svg" alt="inst">
-</div>
+</a>
 </div>
 
 </header>
@@ -196,7 +322,7 @@
 ТОРТОВ
 </p>
 
-<button class="btn">Сделать заказ</button>
+<a href="#form" class="btn" style="text-decoration: none; display: inline-block;">Сделать заказ</a>
 
 </div>
 
@@ -296,10 +422,25 @@
 <h3>СДЕЛАЙТЕ ЗАКАЗ ИЛИ ЗАДАЙТЕ ВОПРОС</h3>
 
 <form id="contact-form">  
-    <input type="text" id="name" placeholder="Имя" required>
-    <input type="email" id="email" placeholder="E-mail" required>
-    <input type="text" id="phone" placeholder="Номер телефона">
-    <input type="text" id="message" placeholder="Комментарий" rows="3" required>
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Имя" required>
+        <span class="error-message" id="name-error"></span>
+    </div>
+    
+    <div class="form-group">
+        <input type="email" id="email" placeholder="E-mail" required>
+        <span class="error-message" id="email-error"></span>
+    </div>
+    
+    <div class="form-group">
+        <input type="tel" id="phone" placeholder="Номер телефона">
+        <span class="error-message" id="phone-error"></span>
+    </div>
+    
+    <div class="form-group">
+        <input type="text" id="message" placeholder="Комментарий" required>
+        <span class="error-message" id="message-error"></span>
+    </div>
     
     <div class="form-btn">
         <button type="submit" class="btn">Отправить форму</button>
@@ -378,6 +519,28 @@ burger.addEventListener('click', () => {
 });
 </script>
 
+<!-- Модальное окно -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-close">&times;</span>
+            <div class="modal-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="#f3a4a4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12" r="10" stroke="#f3a4a4" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+        <div class="modal-body">
+            <h3>Спасибо!</h3>
+            <p>Ваша заявка успешно отправлена.</p>
+            <p class="modal-small">Мы свяжемся с вами в ближайшее время.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn" id="modalCloseBtn">Хорошо</button>
+        </div>
+    </div>
+</div>
   
 </body>
 </html>
